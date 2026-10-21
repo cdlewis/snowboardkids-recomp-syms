@@ -1,0 +1,14 @@
+# Functions absent from the ELF export; retain the existing ROM entry points.
+[[section]]
+name = ".main"
+
+functions = [
+    { name = "MusFxBankSetCurrent", vram = 0x80072104, size = 0x10 },
+    { name = "sprintf_text_0000", vram = 0x800A3500, size = 0x24 },
+    { name = "__rmonPanic", vram = 0x800A69C4, size = 0x50 },
+    { name = "_Putfld", vram = 0x800A92B0, size = 0x670 },
+    { name = "_decodeChunk", vram = 0x800ACF90, size = 0x12C },
+    { name = "_pullSubFrame", vram = 0x800ADC24, size = 0x298 },
+    { name = "_getVol", vram = 0x800ADEBC, size = 0xB0 },
+    { name = "_Genld", vram = 0x800AF2E0, size = 0x570 },
+]

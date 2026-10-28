@@ -2801,30 +2801,30 @@ symbols = [
 [[section]]
 name = "._145380"
 rom = 0x145380
-vram = 0x0
+vram = 0x2000000
 size = 0x1430
 
 symbols = [
-    { name = "_145380", vram = 0x0 },
-    { name = "_145380_DATA_START", vram = 0x0 },
-    { name = "_145380_VRAM", vram = 0x0 },
-    { name = "_145380_DATA_END", vram = 0x1430 },
-    { name = "_145380_VRAM_END", vram = 0x1430 },
+    { name = "_145380", vram = 0x2000000 },
+    { name = "_145380_DATA_START", vram = 0x2000000 },
+    { name = "_145380_VRAM", vram = 0x2000000 },
+    { name = "_145380_DATA_END", vram = 0x2001430 },
+    { name = "_145380_VRAM_END", vram = 0x2001430 },
     { name = "ROOKIE_MOUNTAIN_COURSE_RANK_MODEL_FINAL_LAP_DISPLAY_LIST_VRAM_END", vram = 0x2005FD0 },
 ]
 
 [[section]]
 name = "._1467B0"
 rom = 0x1467B0
-vram = 0x0
+vram = 0x2000000
 size = 0x1160
 
 symbols = [
-    { name = "_1467B0", vram = 0x0 },
-    { name = "_1467B0_DATA_START", vram = 0x0 },
-    { name = "_1467B0_VRAM", vram = 0x0 },
-    { name = "_1467B0_DATA_END", vram = 0x1160 },
-    { name = "_1467B0_VRAM_END", vram = 0x1160 },
+    { name = "_1467B0", vram = 0x2000000 },
+    { name = "_1467B0_DATA_START", vram = 0x2000000 },
+    { name = "_1467B0_VRAM", vram = 0x2000000 },
+    { name = "_1467B0_DATA_END", vram = 0x2001160 },
+    { name = "_1467B0_VRAM_END", vram = 0x2001160 },
 ]
 
 [[section]]

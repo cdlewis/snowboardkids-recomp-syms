@@ -2137,4 +2137,3 @@ functions = [
     { name = "aspMainTextStart", vram = 0x800B0EA0, size = 0xE20 },
     { name = "gspF3DLX_fifoTextStart", vram = 0x800B1CC0, size = 0x1430 },
 ]
-

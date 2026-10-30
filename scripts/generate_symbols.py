@@ -48,7 +48,7 @@ def render(sections, item_key):
                 lines.append("    { " + ", ".join(fields) + " },")
             lines.append("]")
         lines.append("")
-    return "\n".join(lines) + "\n"
+    return "\n".join(lines).rstrip() + "\n"
 
 
 def generate(elf, recompiler, manual, output):

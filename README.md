@@ -1,7 +1,7 @@
 # Snowboard Kids recomp symbols
 
 `dump.toml` and `data_dump.toml` are generated from a matching US decompilation
-ELF with N64Recomp. `manual_symbols.toml` records the 8 existing function
+ELF with N64Recomp. JP dumps and their six manual overrides are in `jp/`. `manual_symbols.toml` records the 8 existing function
 additions/overrides that must survive regeneration.
 
 ## Automatic regeneration
@@ -10,8 +10,7 @@ After a successful US `main` build, `snowboardkids-decomp` sends a
 `decomp-updated` repository dispatch containing its commit SHA. This repo's
 `Regenerate symbols` workflow checks out that exact commit, rebuilds it using
 the private baserom, and runs the decomp's normal ROM hash verification before
-generating US symbols (`VERSION=us`). The JP build does not dispatch symbol
-updates. Superseded updates are skipped. The workflow commits only changed `dump.toml` and `data_dump.toml` files to `main`.
+generating US symbols (`VERSION=us`). The successful US build dispatches a single update that rebuilds and verifies both regions. Superseded updates are skipped. The workflow commits only changed US and JP `dump.toml` and `data_dump.toml` files to `main`.
 
 The ROM, ELF, extracted assets, and build directories stay on the temporary
 GitHub-hosted runner. The workflow does not upload artifacts or build caches.
@@ -59,3 +58,20 @@ function overrides by section and address. It rejects overrides outside their
 section or names that have moved to another address. Review the resulting TOMLs
 before replacing the tracked dumps. Keep copyrighted inputs and build outputs
 outside this repository.
+
+### Japanese symbols
+
+The JP dumps were generated from decomp `7034de13623519f6c13a3f080a99cde7a0bb229d` using its matching JP ELF.
+The ELF SHA-256 was `326ebed3f603e6db921aa0682404335a80d5795a63ec10d08cc8dd3cc524709e`.
+Its `.entry` and `.main` bytes are checked against the original JP ROM when validating updates.
+Manual function ranges in `jp/manual_symbols.toml` come from the decomp's `symbol_addrs.jp.txt`.
+
+```sh
+python3 scripts/generate_symbols.py \
+  --elf /path/to/build/jp/snowboardkids.elf \
+  --recompiler /path/to/N64Recomp \
+  --manual jp/manual_symbols.toml \
+  --output jp
+```
+
+The private baserom repository must also contain `snowboardkids.jp.z64.gpg`, encrypted with `BASEROM_KEY`.

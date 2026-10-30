@@ -91,6 +91,8 @@ jobs:
         run: |
           gpg --quiet --batch --yes --decrypt --passphrase "$BASEROM_KEY" \
             --output decomp/snowboardkids.z64 baserom/snowboardkids.z64.gpg
+          gpg --quiet --batch --yes --decrypt --passphrase "$BASEROM_KEY" \
+            --output decomp/snowboardkids.jp.z64 baserom/snowboardkids.jp.z64.gpg
 
       - name: Check symbol merging
         if: steps.source.outputs.current == 'true'
@@ -106,6 +108,8 @@ jobs:
           export PATH="$PWD/.venv/bin:$PATH"
           make VERSION=us extract
           make -j8 VERSION=us all
+          make VERSION=jp extract
+          make -j8 VERSION=jp all
 
       - name: Build N64Recomp
         if: steps.source.outputs.current == 'true'
@@ -120,6 +124,11 @@ jobs:
             --elf decomp/build/snowboardkids.elf \
             --recompiler "$RUNNER_TEMP/recompiler-build/N64Recomp" \
             --output "$RUNNER_TEMP/generated-symbols"
+          python3 symbols/scripts/generate_symbols.py \
+            --elf decomp/build/jp/snowboardkids.elf \
+            --recompiler "$RUNNER_TEMP/recompiler-build/N64Recomp" \
+            --manual symbols/jp/manual_symbols.toml \
+            --output "$RUNNER_TEMP/generated-symbols/jp"
 
       - name: Checkout latest symbols for publishing
         if: steps.source.outputs.current == 'true'
@@ -144,9 +153,15 @@ jobs:
             echo 'Manual symbols changed during the build; rerun the workflow.' >&2
             exit 1
           fi
+          if ! cmp -s jp/manual_symbols.toml ../symbols/jp/manual_symbols.toml; then
+            echo 'JP manual symbols changed during the build; rerun the workflow.' >&2
+            exit 1
+          fi
+          cp "$RUNNER_TEMP/generated-symbols/jp/dump.toml" jp/dump.toml
+          cp "$RUNNER_TEMP/generated-symbols/jp/data_dump.toml" jp/data_dump.toml
           cp "$RUNNER_TEMP/generated-symbols/dump.toml" dump.toml
           cp "$RUNNER_TEMP/generated-symbols/data_dump.toml" data_dump.toml
-          git add -- dump.toml data_dump.toml
+          git add -- dump.toml data_dump.toml jp/dump.toml jp/data_dump.toml
           if git diff --cached --quiet; then
             echo 'Symbols are already up to date.'
             exit 0
